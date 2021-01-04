@@ -1,8 +1,10 @@
 const express = require('express');
 const app = express();
 
-app.get('/', function (req, res) {
-    res.send('Hello World')
+app.get('/', async (req, res) => {
+   return res.json({
+       name:"Hello World"
+   })
 });
 
 app.listen(3000, () =>{
