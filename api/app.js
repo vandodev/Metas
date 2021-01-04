@@ -19,9 +19,18 @@ mongoose.connect('mongodb://localhost/metas', {
 
 
 app.get('/metas', async (req, res) => {
-   return res.json({
-       name:"Hello World"
-   })
+
+   await Meta.find({}).then((metas) => {
+       return res.json({
+           error: false,
+           metas
+       });
+   }).catch((err) => {
+        return res.status(400).json({
+            error: true,
+            message: "Nenhum registro econtrado!"
+        });
+   });
 });
 
 app.post('/metas', async (req, res) =>{
