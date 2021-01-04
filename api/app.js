@@ -2,13 +2,15 @@ const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 
-mongoose.connect('mongodb://localhost:3000/metas', {
+app.use(express.json());
+
+mongoose.connect('mongodb://localhost/metas', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
-    console.log("Conexão com mongoDb realizada com sucesso");
-}).catch((err) =>{
-    console.log("Erro ao conectar com mongoDb " + err);
+    console.log("Conexão com o BD MongoDB realizado com sucesso!");
+}).catch((err) => {
+    console.log("Erro: Conexão com o BD MongoDB não realizado com sucesso: " + err);
 });
 
 
@@ -16,6 +18,14 @@ app.get('/metas', async (req, res) => {
    return res.json({
        name:"Hello World"
    })
+});
+
+app.post('/metas', async (req, res) =>{
+    console.log(req.body);
+    return res.json({
+        error: false,
+        metas:req.body
+    })
 });
 
 app.listen(3000, () =>{
