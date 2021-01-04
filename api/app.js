@@ -1,10 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
+
+require('./models/Metas');
+const Meta = mongoose.model('Meta');
+
 const app = express();
 
 app.use(express.json());
 
-mongoose.connect('mongodb://localhost/celke', {
+mongoose.connect('mongodb://localhost/metas', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
@@ -18,6 +22,20 @@ app.get('/metas', async (req, res) => {
    return res.json({
        name:"Hello World"
    })
+});
+
+app.post('/metas', async (req, res) =>{
+    await Meta.create(req.body, (err) => {
+        if(err) return res.status(400).json({
+            error: true,
+            message: "Erro: Meta não cadastrada!"
+        })
+    });
+
+    return res.json({
+        error: false,
+        message: "Meta cadastrada com sucesso!"
+    })
 });
 
 app.listen(3000, () =>{
