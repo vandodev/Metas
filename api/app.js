@@ -4,7 +4,7 @@ const app = express();
 
 app.use(express.json());
 
-mongoose.connect('mongodb://localhost/metas', {
+mongoose.connect('mongodb://localhost/celke', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
@@ -18,14 +18,6 @@ app.get('/metas', async (req, res) => {
    return res.json({
        name:"Hello World"
    })
-});
-
-app.post('/metas', async (req, res) =>{
-    console.log(req.body);
-    return res.json({
-        error: false,
-        metas:req.body
-    })
 });
 
 app.listen(3000, () =>{
