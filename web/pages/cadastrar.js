@@ -13,6 +13,25 @@ function Cadastrar(){
     const sendMeta = async e =>{
         e.preventDefault();
         console.log(meta);
+
+        try{
+            const res = await fetch('http://localhost:8080/metas', {
+                method: 'POST',
+                body: JSON.stringify(meta),
+                headers:{'Content-Type': 'application/JSON'}
+            });
+
+            const responseEnv = await res.json();
+            if(responseEnv){
+                console.log(responseEnv.message);
+            }else{
+                console.log(responseEnv.message);
+            }
+
+        }catch(error){
+            console.log('Erro: Meta não cadastrada, tente mais tarde')
+        }    
+
     };
 
     return (
