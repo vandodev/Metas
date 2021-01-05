@@ -1,5 +1,7 @@
 import React , {useState} from 'react';
 
+import {Jumbotron, Container,Button, Form, FormGroup, Label, Input, Alert} from 'reactstrap';
+
 function Cadastrar(){
 
     const [meta, setMeta] = useState({
@@ -8,18 +10,18 @@ function Cadastrar(){
         status: ''
     });
 
-    const onChangeInput = e => setMeta({...meta, [e.target.name]: e.target.value })
-
     const [response, setResponse] = useState({
         formSave: false,
         type:'',
         message:''        
     });
 
+    const onChangeInput = e => setMeta({...meta, [e.target.name]: e.target.value })
+
     const sendMeta = async e =>{
         e.preventDefault();
 
-        setResponse({formSave:true})
+        setResponse({ formSave: true });
 
         try{
             const res = await fetch('http://localhost:8080/metas', {
@@ -29,7 +31,7 @@ function Cadastrar(){
             });
 
             const responseEnv = await res.json();
-            if(responseEnv){
+            if(responseEnv.error){
                 setResponse({
                     formSave: false,
                     type:'error',
@@ -55,29 +57,51 @@ function Cadastrar(){
 
     return (
         <>
-            <h1>Cadastrar Meta</h1>
-            <hr/>
+            <Jumbotron fluid className="form">
 
-            {response.type === 'error' ? <p>{response.message}</p>: ""}
-            {response.type === 'success' ? <p>{response.message}</p>: ""}
+                <style>
+                    {`.form{
+                        background-color: #171941;
+                        color: #bf38ac;
+                        padding-top: 30px;
+                        padding-bottom: 150px;
+                        margin-bottom: 0rem !important;
+                    }`}
+                </style>
 
-            <form onSubmit={sendMeta}>
-                <label>Nome: </label>
-                <input type="text" name="name" id="name" placeholder="Nome da meta" onChange={onChangeInput} /> <br /><br />
+                    <Container>
+                            <h1 className="display-4 text-center">Cadastrar Meta</h1>
+                            <hr/>
 
-                <label>Descrição: </label>
-                <input type="text" name="description" id="description" placeholder="Descrição da meta" onChange={onChangeInput} /> <br /><br />
+                                {response.type === 'error' ? <Alert color="danger">{response.message}</Alert> : ""}
+                                {response.type === 'success' ? <Alert color="success">{response.message}</Alert> : ""}
 
-                <label>Status: </label>
-                <input type="text" name="status" id="status" placeholder="Status da meta" onChange={onChangeInput} /> <br /><br />
+                                <Form onSubmit={sendMeta}>
 
-                {
-                    response.formSave ? <button type="submit" disabled>Enviando ...</button> :
-                    <button type="submit">Cadastrar</button>
-                }
+                                    <FormGroup>
+                                        <Label for="name">Email</Label>
+                                        <Input  type="text" name="name" id="name" placeholder="Nome da meta" onChange={onChangeInput}  />
+                                    </FormGroup>
 
-            </form>
+                                    <FormGroup>
+                                        <Label for="description">Descrição: </Label>
+                                        <Input  type="textarea" name="description" id="description"placeholder="Descrição da meta" onChange={onChangeInput}  />
+                                    </FormGroup>
 
+                                    <FormGroup>
+                                        <Label for="status">Status: </Label>
+                                        <Input type="text" name="status" id="status" placeholder="Status da meta" onChange={onChangeInput} />
+                                    </FormGroup>
+                                    
+                                    
+                                    {
+                                        response.formSave ? <Button type="submit" color="danger" disabled>Enviando ...</Button> :
+                                        <Button type="submit" outline color="primary" >Cadastrar</Button>
+                                    }
+
+                                </Form>
+                    </Container>
+            </Jumbotron>
         </>
     ); 
 }
