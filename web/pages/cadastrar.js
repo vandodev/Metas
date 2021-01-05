@@ -1,6 +1,7 @@
 import React , {useState} from 'react';
-
 import {Jumbotron, Container,Button, Form, FormGroup, Label, Input, Alert} from 'reactstrap';
+
+import Menu from '../components/Menu';
 
 function Cadastrar(){
 
@@ -57,6 +58,9 @@ function Cadastrar(){
 
     return (
         <>
+
+            <Menu />
+
             <Jumbotron fluid className="form">
 
                 <style>

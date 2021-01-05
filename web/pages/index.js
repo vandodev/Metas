@@ -1,8 +1,11 @@
 import React from 'react';
+import Menu from '../components/Menu';
 
 function Home({data}) {
     return (
       <>
+
+        <Menu />
       
         <h1>Minhas metas</h1> <hr />
         {data.metas.map(meta => (
