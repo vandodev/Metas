@@ -18,6 +18,9 @@ function Cadastrar(){
 
     const sendMeta = async e =>{
         e.preventDefault();
+
+        setResponse({formSave:true})
+
         try{
             const res = await fetch('http://localhost:8080/metas', {
                 method: 'POST',
@@ -68,7 +71,10 @@ function Cadastrar(){
                 <label>Status: </label>
                 <input type="text" name="status" id="status" placeholder="Status da meta" onChange={onChangeInput} /> <br /><br />
 
-                <button type="submit">Cadastrar</button>
+                {
+                    response.formSave ? <button type="submit" disabled>Enviando ...</button> :
+                    <button type="submit">Cadastrar</button>
+                }
 
             </form>
 
