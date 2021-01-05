@@ -3,7 +3,6 @@ function Home({data}) {
       <>
       
         <h1>Minhas metas</h1> <hr />
-        <p>{console.log(data.metas)}</p>
         {data.metas.map(meta => (
             <div key={meta._id}>
               <h2>{meta.name}</h2>
