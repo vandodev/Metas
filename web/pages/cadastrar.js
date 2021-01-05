@@ -10,10 +10,14 @@ function Cadastrar(){
 
     const onChangeInput = e => setMeta({...meta, [e.target.name]: e.target.value })
 
+    const [response, setResponse] = useState({
+        formSave: false,
+        type:'',
+        message:''        
+    });
+
     const sendMeta = async e =>{
         e.preventDefault();
-        console.log(meta);
-
         try{
             const res = await fetch('http://localhost:8080/metas', {
                 method: 'POST',
@@ -23,13 +27,25 @@ function Cadastrar(){
 
             const responseEnv = await res.json();
             if(responseEnv){
-                console.log(responseEnv.message);
+                setResponse({
+                    formSave: false,
+                    type:'error',
+                    message:responseEnv.message  
+                });
             }else{
-                console.log(responseEnv.message);
+                setResponse({
+                    formSave: false,
+                    type:'success',
+                    message:responseEnv.message  
+                });
             }
 
         }catch(error){
-            console.log('Erro: Meta não cadastrada, tente mais tarde')
+            setResponse({
+                formSave: false,
+                type:'error',
+                message:'Erro: Meta não cadastrada, tente mais tarde'  
+            });           
         }    
 
     };
@@ -38,6 +54,9 @@ function Cadastrar(){
         <>
             <h1>Cadastrar Meta</h1>
             <hr/>
+
+            {response.type === 'error' ? <p>{response.message}</p>: ""}
+            {response.type === 'success' ? <p>{response.message}</p>: ""}
 
             <form onSubmit={sendMeta}>
                 <label>Nome: </label>
